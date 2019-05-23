@@ -1,0 +1,14 @@
+image: maven:latest
+
+deploy_prod:
+  stage: deploy
+  script:
+    - mvn clean -Pdistribution package
+    - docker build -t bachelorthesis/imageanotation4 .
+    - docker tag -f bachelorthesis/ imageanotation4:latest dockerlab.dke.univie.ac.at:5000/bachelorthesis/ imageanotation4:latest 
+    - docker push dockerlab.dke.univie.ac.at:5000/bachelorthesis/ imageanotation4:latest
+  environment:
+    name: production
+  only:
+    - master
+    
