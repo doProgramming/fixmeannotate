@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Component("InstanceMgmtService")
 @Transactional
 @SuppressWarnings("unused")
-public class InstanceMgmtServiceImpl implements InstanceMgmtService {
+public final class InstanceMgmtServiceImpl implements InstanceMgmtService {
 
 	private static final Logger logger = LoggerFactory.getLogger(InstanceMgmtServiceImpl.class);
 

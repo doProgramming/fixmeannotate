@@ -7,9 +7,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Image {
+public class Tag {
 
-    private int id;
-    private String imageByte;
-    private Tag tag;
+    private Long id;
+    private String name;
 }

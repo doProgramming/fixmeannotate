@@ -7,10 +7,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "image")
 @Data
-public class ImageEntity {
-
+@Table(name = "tag")
+public class TagEntity {
     @Id
     private int id;
 }

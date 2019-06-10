@@ -1,5 +1,6 @@
 package org.omilab.services.template.rest;
 
+import org.omilab.services.template.imageannotation.service.ImageService;
 import org.omilab.services.template.model.GenericRequest;
 import org.omilab.services.template.model.GenericServiceContent;
 import org.omilab.services.template.service.InstanceMgmtService;
@@ -10,10 +11,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 
 @Component
@@ -25,6 +23,9 @@ public final class PSMConnectorAdmin {
 	private final InstanceMgmtService instances;
 
 	private final Environment env;
+
+	@Autowired
+	ImageService imageService;
 
 	@Autowired
 	public PSMConnectorAdmin(InstanceMgmtService instances, Environment env) {
@@ -51,4 +52,19 @@ public final class PSMConnectorAdmin {
 		return new GenericServiceContent("Hello world!");
 	}
 
+	@GET
+	@Path("/test")
+	@Produces("application/json")
+	public String saveAnnotatedImage(){
+		return "Project made by Kris";
+	}
+
+	@GET
+	@Path("/test2")
+	@Produces("application/json")
+	public String annotateImage(){
+		int tag = 1;
+		imageService.annotateImage(tag);
+		return "Good job!";
+	}
 }
