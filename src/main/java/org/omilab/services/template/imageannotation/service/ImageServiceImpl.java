@@ -31,4 +31,14 @@ public final class ImageServiceImpl implements ImageService{
         byte [] imageByte = SerializationUtils.serialize(image);
         return imageByte;
     }
+
+    @Override
+    public String saveImage(String tag, byte[] image) {
+        ImageEntity imageEntity = new ImageEntity();
+        imageEntity.setTag(tag);
+        imageEntity.setImage(image);
+
+        imageRepository.save(imageEntity);
+        return "Image with tag " + tag + " was successfully saved in database.";
+    }
 }

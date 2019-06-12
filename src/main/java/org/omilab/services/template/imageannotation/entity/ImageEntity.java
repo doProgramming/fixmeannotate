@@ -13,4 +13,8 @@ public class ImageEntity {
 
     @Id
     private int id;
+
+    private String tag;
+
+    private byte[] image;
 }
