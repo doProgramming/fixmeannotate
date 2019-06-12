@@ -2,14 +2,16 @@ package org.omilab.services.template.rest;
 
 import java.io.IOException;
 import java.util.Base64;
-import java.util.Map;
+import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
+import org.omilab.services.template.imageannotation.model.ImageTO;
 import org.omilab.services.template.imageannotation.service.ImageService;
 import org.omilab.services.template.service.InstanceMgmtService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +33,7 @@ public class PSMImageEndpoint {
 
     @Autowired
     ImageService imageService;
-
+    
     @GET
     @Path("/annotate")
     @Produces("application/json")
@@ -44,12 +46,27 @@ public class PSMImageEndpoint {
     @POST
     @Path("/save")
     @Consumes("application/json")
-    public String saveImage(@RequestBody Map<String, String> payload) {
+    public String saveImage(@RequestBody List<ImageTO> image) {
         try {
-            byte[] decodedString = Base64.getDecoder().decode(new String(payload.get("image")).getBytes("UTF-8"));
-            return imageService.saveImage(payload.get("tag"), decodedString);
+        	ImageTO imageTO = image.get(0);
+            byte[] decodedString = Base64.getDecoder().decode(new String(imageTO.getImage()).getBytes("UTF-8"));
+            return imageService.saveImage(imageTO.getTag(), decodedString);
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }
     }
+    
+    @GET
+    @Path("/image")
+    @Produces("application/json")
+    public ImageTO getImage(@RequestParam("id") int id) {
+    	return imageService.getById(id);
+    }
+    
+    @DELETE
+    @Path("/image")
+    public void deleteImage(@RequestParam("id") int id) {
+    	imageService.deleteById(id);
+    }
+    
 }

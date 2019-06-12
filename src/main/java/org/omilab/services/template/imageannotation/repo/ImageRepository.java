@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ImageRepository extends JpaRepository<ImageEntity, Long> {
+public interface ImageRepository extends JpaRepository<ImageEntity, Integer> {
     ImageEntity getById(int image);
 
 //    @Query("select i.image_byte from ImageEntity i where i.fk_tag = tag")
