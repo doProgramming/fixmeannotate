@@ -11,4 +11,6 @@ public interface ImageService {
 	ImageTO getById(int id);
 
 	void deleteById(int id);
+
+	String updateImage(int id, String tag, byte[] decodeImageBody);
 }

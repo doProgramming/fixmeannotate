@@ -58,4 +58,14 @@ public final class ImageServiceImpl implements ImageService{
 	public void deleteById(int id) {
 		imageRepository.delete(id);;
 	}
+
+	@Override
+	public String updateImage(int id, String tag, byte[] imageBody) {
+		ImageEntity image = imageRepository.getById(id);
+		TagEntity tagEntity = image.getTag();
+		tagEntity.setTag(tag);
+		image.setImage(imageBody);
+		imageRepository.save(image);
+		return "Image with tag " + tag + " was successfully saved in database.";
+	}
 }

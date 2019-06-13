@@ -1,6 +1,6 @@
 package org.omilab.services.template.rest;
 
-import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Base64;
 import java.util.List;
 
@@ -47,13 +47,22 @@ public class PSMImageEndpoint {
     @Path("/save")
     @Consumes("application/json")
     public String saveImage(@RequestBody List<ImageTO> image) {
-        try {
-        	ImageTO imageTO = image.get(0);
-            byte[] decodedString = Base64.getDecoder().decode(new String(imageTO.getImage()).getBytes("UTF-8"));
-            return imageService.saveImage(imageTO.getTag(), decodedString);
-        } catch (IOException e) {
-            throw new IllegalStateException(e);
-        }
+    	ImageTO imageTO = image.get(0);
+        return imageService.saveImage(imageTO.getTag(), decodeImageBody(imageTO.getImage()));
+    }
+    
+    private byte[] decodeImageBody(String image) {
+    	try {
+			return Base64.getDecoder().decode(new String(image).getBytes("UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			throw new IllegalStateException(e);
+		}
+    }
+    
+    @POST
+    @Path("/update")
+    public String updateImage(@RequestBody ImageTO image, @RequestParam("id") int id) {
+    	return imageService.updateImage(id, image.getTag(), decodeImageBody(image.getImage()));
     }
     
     @GET
